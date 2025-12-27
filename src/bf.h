@@ -1,6 +1,9 @@
 #ifndef BF_H
 #define BF_H
 
+#include <stddef.h>
+
+//struct Bf;
 typedef struct Bf Bf;
 
 Bf *bf_new(size_t s);
