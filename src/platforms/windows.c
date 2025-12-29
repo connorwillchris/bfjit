@@ -21,6 +21,7 @@ static f compile_identity() {
         MEM_COMMIT | MEM_RESERVE,
         PAGE_EXECUTE_READWRITE
     );
+
     // error checking
     if (mem == NULL) {
         printf("[ERROR] VirtualAlloc failed!\n");

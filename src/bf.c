@@ -4,9 +4,17 @@
 
 #include "bf.h"
 
+struct Bf;
+
+typedef void (*period_p)(Bf*);
+typedef char (*comma_p)(Bf*, size_t);
+
 struct Bf {
     size_t s;
     char *tape;
+
+    period_p period;
+    comma_p comma;
 };
 
 /// @brief Creates a new given BF state with tape size `s`.
