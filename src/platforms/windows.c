@@ -1,16 +1,40 @@
+#include "bf.h"
 #include "platforms/platform.h"
 #include "platforms/arch/x86_64.h"
-#include "bf.h"
 
 #include <string.h>
+
+typedef void (*period_p)(Bf*);
+typedef char (*comma_p)(Bf*, size_t);
 
 struct Bf {
     size_t s;
     char *tape;
+
+    period_p period;
+    comma_p comma;
 };
 
+//void (*period_p)(Bf*);
+static void period_f(Bf *b) {
+    putchar(bf_getchar());
+}
+
+typedef enum {
+    T_ADD,
+    T_SUB,
+    T_LEFT,
+    T_RIGHT,
+    T_lOOP_L,
+    T_LOOP_R,
+    T_PERIOD,
+    T_COMMA,
+
+    T_END,
+} Token;
+
 /// @brief The JIT compile and execute a Brainfuck string on Windows x86_64.
-typedef size_t (*f)(char*, size_t, void*, void*);
+typedef size_t (*f)(char*, size_t, period_p, comma_p);
 
 static f compile_identity() {
     // allocate memory
@@ -28,10 +52,8 @@ static f compile_identity() {
         return NULL;
     }
 
-    char code[] = {
-        0x48, 0x89, 0xF8,
-        0xC3,
-    };
+    // get BF in the form of tokens
+    char *code = NULL;
 
     memcpy(mem, code, strlen(code));
 
@@ -46,67 +68,8 @@ int bf_dostring_jit(Bf *b, char *s) {
         return 1;
     }
 
-    code(b->tape, b->s, &putchar, &getchar);
+    code(b->tape, b->s, b->period, b->comma);
 
     // free the memory
     VirtualFree(code, 4096, MEM_RELEASE);
-
-    /*
-    size_t p = 0;
-    size_t i = 0;
-    while (i < strlen(s)) {
-        switch (s[i]) {
-            case '+': {
-                b->tape[p]++;
-                break;
-            }
-            case '-': {
-                b->tape[p]--;
-                break;
-            }
-            case '<': {
-                // if it's equal to zero
-                p = (p + 1) % b->s;
-                break;
-            }
-            case '>': {
-                p = (p - 1 + b->s) % b->s;
-                break;
-            }
-            case '.': {
-                putchar(b->tape[p]);
-                break;
-            }
-            case ',': {
-                b->tape[p] = (char)getchar();
-                break;
-            }
-            case '[': {
-                if (b->tape[p] == 0) {
-                    int depth = 1;
-                    while (depth > 0) {
-                        i++;
-                        if (s[i] == '[') depth++;
-                        else if (s[i] == ']') depth--;
-                    }
-                }
-                break;
-            }
-            case ']': {
-                if (b->tape[p] != 0) {
-                    int depth = 1;
-                    while (depth > 0) {
-                        i--;
-                        if (s[i] == ']') depth++;
-                        else if (s[i] == '[') depth--;
-                    }
-                }
-                break;
-            }
-            //default: break;
-        }
-
-        i++;
-    }
-    */
 }

@@ -6,9 +6,6 @@
 
 struct Bf;
 
-typedef void (*period_p)(Bf*);
-typedef char (*comma_p)(Bf*, size_t);
-
 struct Bf {
     size_t s;
     char *tape;
@@ -17,9 +14,6 @@ struct Bf {
     comma_p comma;
 };
 
-/// @brief Creates a new given BF state with tape size `s`.
-/// @param s Size of tape in bytes.
-/// @return The BF state as a pointer.
 Bf *bf_new(size_t s) {
     Bf *b = (Bf *)malloc(sizeof(Bf));
     b->s = s;
@@ -29,17 +23,11 @@ Bf *bf_new(size_t s) {
     return b;
 }
 
-/// @brief Closes the state and frees all data on the heap.
-/// @param b Brainfuck state pointer.
 void bf_close(Bf *b) {
     free(b->tape);
     free(b);
 }
 
-/// @brief Executes a given string `s` as code.
-/// @param b Brainfuck state pointer.
-/// @param s Char pointer to bf code.
-/// @return Error code. 0 on success, 1 on fail.
 int bf_dostring(Bf *b, char *s) {
     size_t p = 0;
     size_t i = 0;
@@ -93,10 +81,13 @@ int bf_dostring(Bf *b, char *s) {
                 }
                 break;
             }
-            //default: break;
+            default: break;
         }
 
         i++;
     }
 }
 
+char bf_getchar(Bf *b, size_t c) {
+    return b->tape[c];
+}

@@ -1,6 +1,6 @@
+#include "bf.h"
 #include "platforms/platform.h"
 #include "platforms/arch/x86_64.h"
-#include "bf.h"
 
 /// @brief The JIT compile and execute a Brainfuck string on Windows x86_64.
 typedef size_t (*f)(char*, size_t, void*, void*);

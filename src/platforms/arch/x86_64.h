@@ -18,17 +18,9 @@
 #define REG_R14 14
 #define REG_R15 15
 
+#define RET_INSTRUCTION_LEN 1
+
 #define RET_INSTRUCTION 0xC3
-
-// REX prefix
-// 0100WRXB
-//
-// W = 1:64-bit operand
-// R = reg field high bit
-// X = index reg high bit (SIB)
-// B = r/m reg high bit
-
-
 
 /// @brief Returns the ret instruction as a byte.
 /// @return The RET command byte.
@@ -36,15 +28,16 @@ char inst_ret() {
     return RET_INSTRUCTION;
 }
 
-/// @brief
+/// @brief Move instruction.
 /// @return a MOV-64 bit instruction.
 char *inst_mov() {
-    char mod = 0b00000000;
+    
 }
 
 /// @brief The add instruction in 3+ bytes.
 /// @return The add instruction.
 char *inst_add() {
+
 }
 
 #endif
