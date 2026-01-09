@@ -4,8 +4,8 @@
 
 #include <string.h>
 
-typedef void (*period_p)(Bf*);
-typedef char (*comma_p)(Bf*, size_t);
+typedef char (*period_p)(Bf*, size_t);
+typedef void (*comma_p)(Bf*);
 
 struct Bf {
     size_t s;
@@ -16,8 +16,8 @@ struct Bf {
 };
 
 //void (*period_p)(Bf*);
-static void period_f(Bf *b) {
-    putchar(bf_getchar());
+static void period_f(Bf *b, size_t c) {
+    putchar(bf_getchar(b, c));
 }
 
 typedef enum {

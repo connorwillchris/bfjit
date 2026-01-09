@@ -2,8 +2,8 @@ const std = @import("std");
 
 pub fn build(b: *std.Build) void {
     const exe = b.addExecutable(.{
-        .name = "bfjit",
-        .root_module = b.addModule("bfjit", .{
+        .name = "bf",
+        .root_module = b.addModule("bf", .{
             .link_libc = true,
             .target = b.resolveTargetQuery(.{ .os_tag = .windows }),
         }),

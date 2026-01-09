@@ -5,9 +5,8 @@
 
 typedef struct Bf Bf;
 
-typedef void (*period_p)(Bf*);
-
-typedef char (*comma_p)(Bf*, size_t);
+typedef char (*period_p)(Bf*, size_t);
+typedef void (*comma_p)(Bf*);
 
 /// @brief Creates a new given BF state with tape size `s`.
 /// @param s Size of tape in bytes.
