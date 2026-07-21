@@ -28,5 +28,5 @@ void bf_close(Bf *b) {
 }
 
 int bf_dostring(Bf *b, char *s) {
-    
+
 }

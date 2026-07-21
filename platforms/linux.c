@@ -1,9 +1,5 @@
 #include "platform.h"
 
-// define linux - quick and dirty, for testing!
-// TODO - change this in makefile script
-#define PLATFORM_LINUX
-
 #ifdef PLATFORM_LINUX
 #include <sys/mman.h>
 
@@ -17,20 +13,16 @@ uint8_t *mem_alloc(size_t l) {
         0
     );
 
+    if (code == MAP_FAILED) {
+        perror("Failed to allocate memory!\n");
+        return NULL;
+    }
+
     return code;
 }
 
 void mem_dealloc(void *code, size_t l) {
     munmap(code, l);
-}
-
-#elif PLATFORM_WINDOWS
-#include <Windows.h>
-
-uint8_t *mem_alloc(size_t bytes) {
-    uint8_t *code = 5; // TODO: Windows needs to have it's own allocation
-
-    return code;
 }
 
 #endif
